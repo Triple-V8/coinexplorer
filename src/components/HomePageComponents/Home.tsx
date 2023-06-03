@@ -38,7 +38,9 @@ type topCoinObj = {
     current_price: number,
     id: string,
     symbol: string,
+    price_change_percentage_1h_in_currency: number,
     price_change_percentage_24h: number,
+    price_change_percentage_7d_in_currency: number,
     market_cap: number,
     total_volume: number
 }
@@ -70,7 +72,38 @@ const HomeComnponent = () => {
     const [tabState, setTabState] = useState("all coins");
 
 
-    const pages = [1, 2, 3, 4];
+    const pages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 
+                    11 ,12, 13, 14, 15, 16, 17, 18, 19, 20,
+                    21 ,22, 23, 24, 25, 26, 27, 28, 29, 30,
+                    31 ,32, 33, 34, 35, 36, 37, 38, 39, 40,
+                    41 ,42, 43, 44, 45, 46, 47, 48, 49, 50,
+                    51 ,52, 53, 54, 55, 56, 57, 58, 59, 60,
+                    61 ,62, 63, 64, 65, 66, 67, 68, 69, 70,
+                    71 ,72, 73, 74, 75, 76, 77, 78, 79, 80,
+                    81 ,82, 83, 84, 85, 86, 87, 88, 89, 90,
+                    91 ,92, 93, 94, 95, 96, 97, 98, 99, 100
+                ];
+
+                const offset = 3; // Offset for generating pagev array
+
+                // Calculate the minimum and maximum bounds based on the given range
+                const minValue = 1;
+                const maxValue = 100;
+                
+                // Adjust page to handle wrap-around behavior
+                if (page < minValue) {
+                  setPage(maxValue); // Set page to the maximum value
+                } else if (page > maxValue) {
+                    setPage(minValue); // Set page to the minimum value
+                }
+                
+                // Generate the pagev array using the adjusted page value
+                const pagev = [];
+                for (let i = -offset; i <= offset; i++) {
+                  const value = (page + i + maxValue - 1) % maxValue + 1;
+                  pagev.push(value);
+                }
+                
 
     const reduxFavouritesARR: any[] = useSelector((state: any) => state.favourites.list);
     const toast = useToast();
@@ -81,7 +114,7 @@ const HomeComnponent = () => {
     useEffect(() => {
         // all coins
         fetch(
-            `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency.toLowerCase()}&order=market_cap_desc&per_page=80&page=1&sparkline=false`
+            `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency.toLowerCase()}&order=market_cap_desc&per_page=100&page=${page}&sparkline=false&price_change_percentage=1h%2C24h%2C7d`
         )
             .then((response) => response.json())
             .then((data) => {
@@ -122,7 +155,7 @@ const HomeComnponent = () => {
                  throw new Error('Error fetching gaming coins: ' + error);
              });*/
 
-    }, [currency]);
+    }, [currency, page]);
 
 
 
@@ -350,6 +383,9 @@ const HomeComnponent = () => {
                                     </Tooltip>
                                 </th>
 
+                                <th>1h</th>
+                                <th>24h</th>
+                                <th>7d</th>
                                 <th>total volume</th>
 
                                 <th>
@@ -359,13 +395,12 @@ const HomeComnponent = () => {
                                         </span>
                                     </Tooltip>
                                 </th>
-                                <th>Price Change</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             {/* rows */}
-                            {cryptoData.slice(page * 20 - 20, page * 20).map((coin, index) => (
+                            {cryptoData.slice(0, 99).map((coin, index) => (
                                 <tr key={coin.id}>
                                     <th>
                                         <div className='w-8 h-8 cursor-pointer'>
@@ -373,17 +408,24 @@ const HomeComnponent = () => {
                                                 onClick={() => addToFavouritesHandler(coin)}
                                             />
                                         </div>
+                                        
                                     </th>
-                                    <td className='py-6 cursor-pointer'>
+                                    <td>
+                                    <div className='cursor-pointer'>
                                         <Link href={`/${coin.id}`}>
                                             <img src={coin.image} className="sm:w-12 sm:h-12 w-9 h-9 inline-block mr-2" alt="ada" />
                                             <span className='font-semibold inline-block align-middle uppercase sm:text-base text-sm mr-4'>{coin.id.substring(0, 18)}</span>
                                         </Link>
+                                    </div>
                                     </td>
-                                    <td className=' font-semibold py-6 sm:text-base text-sm'> {currency == "usd" ? "$" : <BiRupee className=' inline-block'></BiRupee>} {coin.current_price.toLocaleString()}</td>
-                                    <td className=' font-semibold pl-6 sm:text-base text-sm'>{coin.total_volume.toLocaleString()}</td>
-                                    <td className=' font-semibold text-gray-500 py-6 sm:text-base text-sm'> {currency == "usd" ? "$" : <BiRupee className=' inline-block'></BiRupee>} {coin.market_cap.toLocaleString()}</td>
-                                    <td className={coin.price_change_percentage_24h > 0 ? "text-green-600 sm:text-base text-sm font-semibold py-6 inline-block align-middle" : "text-red-600 font-semibold py-6 inline-block align-middle"}> <span className=' inline-block align-middle'> {coin.price_change_percentage_24h > 0 ? <FiTrendingUp className='text-semibold text-xl text-green-600' /> : <FiTrendingDown className='text-semibold text-xl text-red-600' />} </span>  {coin.price_change_percentage_24h.toFixed(2)}%</td>
+                                    
+                                    <td className='font-semibold py-6 sm:text-base text-sm'> {currency == "usd" ? "$" : <BiRupee className=' inline-block'></BiRupee>} {coin.current_price ? coin.current_price.toLocaleString() : "-"}</td>
+                                    <td className={coin.price_change_percentage_1h_in_currency ? (coin.price_change_percentage_1h_in_currency > 0 ? "text-green-600 sm:text-base text-sm font-semibold py-6 align-middle" : "text-red-600 font-semibold py-6 align-middle") : ""} > <span className=' inline-block align-middle'> {coin.price_change_percentage_1h_in_currency ? (coin.price_change_percentage_1h_in_currency > 0 ? <FiTrendingUp className='text-semibold text-xl text-green-600' /> : <FiTrendingDown className='text-semibold text-xl text-red-600' />) : "-"} </span>  {coin.price_change_percentage_1h_in_currency ? coin.price_change_percentage_1h_in_currency.toFixed(2) : ""}%</td>
+                                    <td className={coin.price_change_percentage_24h ? (coin.price_change_percentage_24h > 0 ? "text-green-600 sm:text-base text-sm font-semibold py-6 align-middle" : "text-red-600 font-semibold py-6 align-middle") : ""}> <span className=' inline-block align-middle'> {coin.price_change_percentage_24h ? (coin.price_change_percentage_24h > 0 ? <FiTrendingUp className='text-semibold text-xl text-green-600' /> : <FiTrendingDown className='text-semibold text-xl text-red-600' />) : "-"} </span>  {coin.price_change_percentage_24h ? coin.price_change_percentage_24h.toFixed(2) : ""}%</td>
+                                    <td className={coin.price_change_percentage_7d_in_currency ? (coin.price_change_percentage_7d_in_currency > 0 ? "text-green-600 sm:text-base text-sm font-semibold py-6 align-middle" : "text-red-600 font-semibold py-6 align-middle") : "-"}> <span className=' inline-block align-middle'> {coin.price_change_percentage_7d_in_currency ? (coin.price_change_percentage_7d_in_currency > 0 ? <FiTrendingUp className='text-semibold text-xl text-green-600' /> : <FiTrendingDown className='text-semibold text-xl text-red-600' />) : "-"} </span>  {coin.price_change_percentage_7d_in_currency ? coin.price_change_percentage_7d_in_currency.toFixed(2) : ""}%</td>
+                                    <td className='font-semibold pl-6 sm:text-base text-sm'>{coin.total_volume ? coin.total_volume.toLocaleString() : "-"}</td>
+                                    <td className='font-semibold text-gray-500 py-6 sm:text-base text-sm'> {currency == "usd" ? "$" : <BiRupee className=' inline-block'></BiRupee>} {coin.market_cap ? coin.market_cap.toLocaleString() : "-"}</td>
+                                    
                                 </tr>
                             ))}
                         </tbody>
@@ -400,7 +442,7 @@ const HomeComnponent = () => {
 
             {  /* PAGINATION */}
             <div className='flex gap-4 flex-wrap justify-center'>
-                {pages.map((item) => {
+                {pagev.map((item) => {
 
                     return (
                         <p key={item} className={active == item ? "bg-black text-white indivitualPage2 font-semibold cursor-pointer" : "indivitualPage font-semibold cursor-pointer"} onClick={(e) => {

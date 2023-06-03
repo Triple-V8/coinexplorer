@@ -63,6 +63,14 @@ body {
   cursor: pointer;
 }
 
+.text-black-600{
+  color: black;
+}
+
+.fixed-row {
+  position: sticky;
+  top: 0;
+}
 ::-webkit-scrollbar {
   display: none;
 }
@@ -75,8 +83,6 @@ body {
   transform: scale(1.09);
   transition: all ease 300ms;
 }
-
-
 
 .indivitualPage {
   border-radius: 50%;
@@ -192,6 +198,11 @@ body {
   width: 84%;
 }
 
+.sticky-div {
+  position: fixed;
+  top: 0;
+  /* Additional styles for the sticky div when it becomes sticky */
+}
 .greyBackground {
   background: rgba(196, 196, 196, 0.414);
 
@@ -239,6 +250,14 @@ body {
 
 .w40Percent {
   width: 40%;
+}
+
+.w10Percent {
+  width: 10%;
+}
+
+.w10Percent {
+  width: 90%;
 }
 
 .coinDetailDivider {
