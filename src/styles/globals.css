@@ -383,3 +383,27 @@ body {
     width: 98%;
   }
 }
+
+.header {
+  background-color: #f1f1f1;
+  padding: 10px;
+  transition: top 0.3s;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.sticky2nd{
+  position: sticky;
+  left: 50px;
+}
+@media(max-width:450px) {
+  .namesize{
+    font-size: 0.7em;
+    width: 100px;
+  }
+}
