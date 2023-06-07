@@ -103,7 +103,7 @@ const HomeComnponent = () => {
         const headerElement = headerRef.current;
             if (headerElement) {
           const rect = headerElement.getBoundingClientRect();
-          setIsHeaderSticky(rect.top <= 0);
+          setIsHeaderSticky(rect.top <= 64);
             
         };
       }
@@ -364,7 +364,7 @@ const HomeComnponent = () => {
             {  /* MAIN CRYPTO TABLE  */}
 
 
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto bodied">
                 {cryptoData.length === 0 ?
                     <p className=' font-semibold flex justify-center items-center mb-4 gap-2'>
                         No Results Found  <RxCrossCircled className=' font-bold align-middle text-2xl text-red-600' />
@@ -372,11 +372,12 @@ const HomeComnponent = () => {
                     :
                     <table className="table cryptoDataMainTable mx-auto w-full">
                         {/* head */}
-                        <thead className={`header ${isHeaderSticky ? 'sticky' : ''}`}>
+                        <thead>
+                            
                             <tr>
-                                <th></th>
-                                <th className='metaverse-table'>Coin</th>
-                                <th>
+                                <th className={`header ${isHeaderSticky ? 'stickys' : ''}`}></th>
+                                <th className={`metaverse-table header ${isHeaderSticky ? 'stickys' : ''} sticky2nd`}>Coin</th>
+                                <th className={`header ${isHeaderSticky ? 'stickys' : ''}`}>
                                     <Tooltip label='Low To High' className='md:mr-20'>
                                         <span id='lowTOhigh' className='flex items-center gap-1 cursor-pointer' onClick={lowTOhighHanler}>Price
                                             <HiOutlineArrowsUpDown className='text-xl' />
@@ -384,12 +385,12 @@ const HomeComnponent = () => {
                                     </Tooltip>
                                 </th>
 
-                                <th>1h</th>
-                                <th>24h</th>
-                                <th>7d</th>
-                                <th>total volume</th>
+                                <th className={`header ${isHeaderSticky ? 'stickys' : ''}`}>1h</th>
+                                <th className={`header ${isHeaderSticky ? 'stickys' : ''}`}>24h</th>
+                                <th className={`header ${isHeaderSticky ? 'stickys' : ''}`}>7d</th>
+                                <th className={`header ${isHeaderSticky ? 'stickys' : ''}`}>total volume</th>
 
-                                <th>
+                                <th className={`header ${isHeaderSticky ? 'stickys' : ''}`}>
                                     <Tooltip label='High To Low' className='md:mr-28'>
                                         <span id='highTOlow' className='flex items-center gap-1 cursor-pointer' onClick={highTOlowHandler}>Market Cap
                                             <HiOutlineArrowsUpDown className='text-xl rotate-180' />

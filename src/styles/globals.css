@@ -386,17 +386,23 @@ body {
 
 .header {
   background-color: #f1f1f1;
-  padding: 10px;
-  transition: top 0.3s;
+  
+}
+.bodied {
 }
 
-.sticky {
-  position: fixed;
-  top: 0;
-  width: 100%;
+th.stickys {
+  position: static;
+  top: 100px;
+  width: 100;
   z-index: 100;
+  overflow: hidden;
 }
-
+th.stickys.sticky2nd{
+  position: static;
+  width: 100%;
+  left: 50px;
+}
 .sticky2nd{
   position: sticky;
   left: 50px;
@@ -405,5 +411,6 @@ body {
   .namesize{
     font-size: 0.7em;
     width: 100px;
+    overflow: hidden;
   }
 }
